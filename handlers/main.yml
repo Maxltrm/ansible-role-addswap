@@ -1,0 +1,15 @@
+- name: "Make swap area on {{ swap.path }}/{{ swap.name }}.swap"
+  command: "mkswap {{ swap.path }}/{{ swap.name }}.swap"
+  listen: enable_swap
+
+- name: "Set swapfile permission {{ swap.path }}/{{ swap.name }}.swap"
+  file:
+    path: "{{ swap.path }}/{{ swap.name }}.swap"
+    owner: root
+    group: root
+    mode: '0600'
+  listen: enable_swap
+
+- name: "Enable swap"
+  command: "swapon {{ swap.path }}/{{ swap.name }}.swap"
+  listen: enable_swap

@@ -1,0 +1,5 @@
+---
+swap:
+  path: /tmp
+  name: file1
+  size: 1024

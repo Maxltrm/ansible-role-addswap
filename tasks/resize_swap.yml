@@ -1,0 +1,12 @@
+- name: "Set swap facts"
+  set_fact:
+    oldswapsize: "{% if swapfile.stat.exists %}{{ (swapfile.stat.size/1024/1024) | int }}{% else %}0{% endif %}"
+    newswapsize: "{{ swap.size | int }}"
+
+- name: "Disable swap file if resize is needed"
+  command: "swapoff {{ swap.path }}/{{ swap.name }}.swap"
+  when: "oldswapsize != newswapsize"
+- name: "Create new swap file if resize is needed"
+  command: dd if=/dev/zero of={{ swap.path }}/{{ swap.name }}.swap bs=1M count={{ swap.size }}
+  notify: enable_swap
+  when: "oldswapsize != newswapsize"

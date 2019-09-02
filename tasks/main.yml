@@ -1,0 +1,11 @@
+---
+- name: "Get swap file {{ swap.name }} informations"
+  stat:
+    path: "{{ swap.path }}/{{ swap.name }}.swap"
+  register: swapfile
+
+- include: new_swap.yml
+  when: not swapfile.stat.exists
+
+- include: resize_swap.yml
+  when: swapfile.stat.exists

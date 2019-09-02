@@ -1,0 +1,3 @@
+- name: "Create new swap file if not present"
+  command: dd if=/dev/zero of={{ swap.path }}/{{ swap.name }}.swap bs=1M count={{ swap.size }}
+  notify: enable_swap
